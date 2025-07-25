@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import AxiosLogin from "../login/Login.jsx"; 
+import AxiosLogin from "../login/Login.jsx";
 
 function MainRouter() {
   return (
     <Routes>
       <Route path="/login" element={<AxiosLogin />} />
-    </Routes>   
+      <Route path="/notice" element={<Notice />} />
+    </Routes>
   );
 }
 
