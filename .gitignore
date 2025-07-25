@@ -13,6 +13,7 @@ org.eclipse.wst.*
 
 node_modules
 bower_components
+vite.config.js
 
 *.sublime*
 
