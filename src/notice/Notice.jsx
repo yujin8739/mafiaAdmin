@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import NoticeDelete from "./NoticeDelete";
 
 const Notice = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageInfo, setPageInfo] = useState(null);
 
   // 필터 조건 상태
   const [keyword, setKeyword] = useState("");
@@ -28,12 +30,17 @@ const Notice = () => {
         }
       });
       setNotices(response.data.noticeList);
+      setPageInfo(response.data.pi);
     } catch (error) {
       console.error("공지사항 불러오기 실패:", error);
     } finally {
       setLoading(false);
     }
   };
+  
+  useEffect(() => {
+    fetchNotices();
+  }, [currentPage, sort]);
 
   // 처음 로드될 때 1번 실행
   useEffect(() => {
@@ -48,7 +55,14 @@ const Notice = () => {
   // 검색 폼 제출 처리
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    setCurrentPage(1);
     fetchNotices();
+  };
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= pageInfo.maxPage) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -99,6 +113,7 @@ const Notice = () => {
       ) : notices.length === 0 ? (
         <p>조회된 공지사항이 없습니다.</p>
       ) : (
+        <>
         <table className="table table-bordered text-center">
           <thead className="thead-light">
             <tr>
@@ -117,10 +132,58 @@ const Notice = () => {
                 <td>관리자</td>
                 <td>{notice.createDate?.slice(0, 10)}</td>
                 <td>{notice.count}</td>
+                <td>
+                  <NoticeDelete
+                    noticeNo={notice.noticeNo}
+                    onDeleteSuccess={fetchNotices}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {pageInfo && (
+            <nav>
+              <ul className="pagination justify-content-center">
+                {/* 이전 버튼 */}
+                <li className={`page-item ${pageInfo.currentPage === 1 ? "disabled" : ""}`}>
+                  <button
+                    className="page-link"
+                    onClick={() => handlePageChange(pageInfo.currentPage - 1)}
+                  >
+                    이전
+                  </button>
+                </li>
+
+                {/* 페이지 번호 */}
+                {Array.from({ length: pageInfo.endPage - pageInfo.startPage + 1 }, (_, i) => {
+                  const page = pageInfo.startPage + i;
+                  return (
+                    <li
+                      key={page}
+                      className={`page-item ${page === pageInfo.currentPage ? "active" : ""}`}
+                    >
+                      <button className="page-link" onClick={() => handlePageChange(page)}>
+                        {page}
+                      </button>
+                    </li>
+                  );
+                })}
+
+                {/* 다음 버튼 */}
+                <li className={`page-item ${pageInfo.currentPage === pageInfo.maxPage ? "disabled" : ""}`}>
+                  <button
+                    className="page-link"
+                    onClick={() => handlePageChange(pageInfo.currentPage + 1)}
+                  >
+                    다음
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          )}
+          </>
       )}
     </div>
   );
