@@ -6,21 +6,12 @@ function App() {
   return (
     <BrowserRouter>
       <nav>
-<<<<<<< HEAD
-	  <Link to="/">홈</Link> | 
-	  <Link to="/board">게시글</Link> |
-	  <Link to="/notice">공지사항</Link> |
-	  <Link to="/login">로그인</Link> |
-	  <Link to="/signup">회원가입</Link> |
-	  <Link to="/profile">프로필</Link> |
-=======
         <Link to="/">홈</Link> | 
         <Link to="/board">게시글</Link> |
-        <Link to="/login">로그인</Link>
-        <Link to="/signup">회원가입</Link>
-        <Link to="/profile">프로필</Link>
-        <Link to="/member">회원관리</Link>
->>>>>>> branch 'main' of https://github.com/yujin8739/mafiaAdmin.git
+        <Link to="/notice">공지사항</Link> |
+        <Link to="/login">로그인</Link> |
+        <Link to="/signup">회원가입</Link> |
+        <Link to="/profile">프로필</Link> |
       </nav>
       <MainRouter />
     </BrowserRouter>
