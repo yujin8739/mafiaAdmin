@@ -1,6 +1,8 @@
 import axios from "axios";
 import React from "react";
 import '../css/gameRoom/GameRoom.css';
+import GameRoomDetail from "./GameRoomDetail";
+import Pagination from "../util/pagination/Pagination";
 
 function GameRoom() {
     const [gameRooms, setGameRooms] = React.useState([]);
@@ -26,19 +28,12 @@ function GameRoom() {
         }
     };
 
-    React.useEffect(() => { handleGameRoomList(page); }, [page]);
-
     const handleRowClick = (room) => {
         setSelectedRoom(room);
     };
 
-    const handlePrevPage = () => {
-        if (page > 1) setPage(page - 1);
-    };
 
-    const handleNextPage = () => {
-        if (page < totalPages) setPage(page + 1);
-    };
+    React.useEffect(() => { handleGameRoomList(page); }, [page]);
 
     return (
         <div className="game-room-container">
@@ -89,37 +84,9 @@ function GameRoom() {
                     )}
                 </tbody>
             </table>
-            <div className="pagination">
-                <button onClick={handlePrevPage} disabled={page === 1}>이전</button>
-                <span>{page} / {totalPages}</span>
-                <button onClick={handleNextPage} disabled={page === totalPages}>다음</button>
-            </div>
-            {selectedRoom && (
-                <div className="room-detail-block">
-                    <h3>방 상세 정보</h3>
-                    <p><strong>방 번호:</strong> {selectedRoom.roomNo}</p>
-                    <p><strong>방 이름:</strong> {selectedRoom.roomName}</p>
-                    <p><strong>참여 인원:</strong> {
-                        (() => {
-                            let users = selectedRoom.userList;
-                            if (typeof users === "string") {
-                                try { users = JSON.parse(users); } catch { users = []; }
-                            }
-                            return Array.isArray(users) ? users.length : 0;
-                        })()
-                    }</p>
-                    <p><strong>최대 인원:</strong> {selectedRoom.headCount}</p>
-                    <p><strong>참여자 목록:</strong> {
-                        typeof selectedRoom.userList === "string"
-                            ? JSON.parse(selectedRoom.userList).join(", ")
-                            : Array.isArray(selectedRoom.userList)
-                                ? selectedRoom.userList.join(", ")
-                                : ""
-                    }</p>
-                    <p><strong>상태:</strong> {selectedRoom.isGaming ? "게임 중" : "대기 중"}</p>
-                    <button onClick={() => setSelectedRoom(null)}>닫기</button>
-                </div>
-            )}
+            <Pagination page={page} totalPages={totalPages} onPageChange={(newPage) => setPage(newPage)} />
+            <GameRoomDetail selectedRoom={selectedRoom} onClose={() => setSelectedRoom(null)} />
+            
         </div>
     );
 }
