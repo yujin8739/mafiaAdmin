@@ -15,8 +15,7 @@ const Notice = () => {
   const fetchNotices = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8081/api/notices",
-      {
+      const response = await axios.get("/api/notices", {
         params: {
           currentPage: currentPage,
           keyword: keyword,
