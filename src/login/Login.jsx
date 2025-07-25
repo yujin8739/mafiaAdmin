@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../css/login/AxiosLogin.css';
 
 const AxiosLogin = () => {
-  const [username, setUsername] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (event) => { 
@@ -11,7 +11,7 @@ const AxiosLogin = () => {
 
     try {    
       const response = await axios.post('/api/login', {
-        userName: username,
+        userName: userName,
         password: password,
       }, {
         headers: {
@@ -35,10 +35,10 @@ const AxiosLogin = () => {
       <form onSubmit={handleLogin}>
         <input
           type="text"
-          placeholder="Username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="UserName"
+          name="userName"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
           required
         />
         <input
