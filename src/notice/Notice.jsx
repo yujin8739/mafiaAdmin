@@ -9,6 +9,7 @@ const Notice = () => {
   const [keyword, setKeyword] = useState("");
   const [condition, setCondition] = useState("title");
   const [sort, setSort] = useState("byDate");
+  const [currentPage, setCurrentPage] = useState(1);
 
   // 공지사항 불러오기 함수
   const fetchNotices = async () => {
@@ -16,13 +17,14 @@ const Notice = () => {
     try {
       const response = await axios.get("/api/notices", {
         params: {
-          keyword,
-          condition,
-          sort
+          currentPage: currentPage,
+          keyword: keyword,
+          condition: condition,
+          sort: sort
         },
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer "+ localStorage.getItem("token")
+          "Authorization": "Bearer " + localStorage.getItem("token")
         }
       });
       setNotices(response.data.noticeList);
@@ -111,7 +113,7 @@ const Notice = () => {
             {notices.map((notice) => (
               <tr key={notice.noticeNo}>
                 <td>{notice.noticeNo}</td>
-                <td>{notice.noticeTitle}</td>
+                <td>{notice.title}</td>
                 <td>관리자</td>
                 <td>{notice.createDate?.slice(0, 10)}</td>
                 <td>{notice.count}</td>
