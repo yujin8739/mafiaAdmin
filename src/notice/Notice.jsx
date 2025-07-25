@@ -20,9 +20,10 @@ const Notice = () => {
           condition,
           sort
         },
-        // headers: {
-        //   Authorization: `Bearer ${token}`  // 여기서 token은 변수로 저장된 JWT 토큰
-        // }
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer "+ localStorage.getItem("token")
+        }
       });
       setNotices(response.data.noticeList);
     } catch (error) {

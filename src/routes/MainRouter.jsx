@@ -7,6 +7,7 @@ function MainRouter() {
     <Routes>
       <Route path="/login" element={<AxiosLogin />} />
       <Route path="/notice" element={<Notice />} />
+      <Route path="/notice/delete/:noticeNo" element={<NoticeDelete />} />
     </Routes>
   );
 }
