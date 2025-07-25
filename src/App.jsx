@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
       <nav>
         <Link to="/">홈</Link> | 
-        <Link to="/about">게시글</Link> |
+        <Link to="/board">게시글</Link> |
         <Link to="/login">로그인</Link>
         <Link to="/signup">회원가입</Link>
         <Link to="/profile">프로필</Link>
