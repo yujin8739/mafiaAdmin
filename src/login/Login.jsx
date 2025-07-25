@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../css/login/AxiosLogin.css';
 
 const AxiosLogin = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +10,7 @@ const AxiosLogin = () => {
     event.preventDefault(); // 폼 제출 시 새로고침 막기
 
     try {    
-      const response = await axios.post('https://god-daddy.com/api/login', {
+      const response = await axios.post('/api/login', {
         userName: username,
         password: password,
       }, {
