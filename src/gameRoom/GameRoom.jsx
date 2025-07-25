@@ -35,6 +35,16 @@ function GameRoom() {
 
     React.useEffect(() => { handleGameRoomList(page); }, [page]);
 
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return (
+            <div className="game-room-container">
+                <h2>로그인 해주세요</h2>
+            </div>
+        );
+    }
+
     return (
         <div className="game-room-container">
             <h2>게임 방 리스트</h2>
@@ -86,7 +96,6 @@ function GameRoom() {
             </table>
             <Pagination page={page} totalPages={totalPages} onPageChange={(newPage) => setPage(newPage)} />
             <GameRoomDetail selectedRoom={selectedRoom} onClose={() => setSelectedRoom(null)} />
-            
         </div>
     );
 }
