@@ -5,10 +5,10 @@ const AxiosLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async (event) => {
+  const handleLogin = async (event) => { 
     event.preventDefault(); // 폼 제출 시 새로고침 막기
 
-    try {
+    try {    
       const response = await axios.post('https://god-daddy.com/api/login', {
         userName: username,
         password: password,
@@ -20,6 +20,9 @@ const AxiosLogin = () => {
 
       console.log('Login successful:', response.data);
       // 로그인 성공 후 처리 로직 (예: 토큰 저장, 리디렉션 등)
+      localStorage.setItem('token', response.data.token);
+      // 예: 메인 페이지로 리디렉션
+      window.location.href = '/';
     } catch (error) {
       console.error('Login failed:', error);
     }
