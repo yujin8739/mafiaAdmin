@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../css/login/AxiosLogin.css';
 
 const AxiosLogin = () => {
-  const [username, setUsername] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async (event) => { 
     event.preventDefault(); // 폼 제출 시 새로고침 막기
 
     try {    
-      const response = await axios.post('https://god-daddy.com/api/login', {
-        userName: username,
+      const response = await axios.post('/api/login', {
+        userName: userName,
         password: password,
       }, {
         headers: {
@@ -34,10 +35,10 @@ const AxiosLogin = () => {
       <form onSubmit={handleLogin}>
         <input
           type="text"
-          placeholder="Username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="UserName"
+          name="userName"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
           required
         />
         <input
