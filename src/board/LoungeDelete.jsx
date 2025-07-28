@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const BoardDelete = ({ boardNo, onDeleteSuccess }) => {
+const LoungeDelete = ({ boardNo, onDeleteSuccess }) => {
     
     const handleDelete = async (e) => {
         e.preventDefault();
 
         try {
             const response = await axios.post(
-                `/api/board/delete?boardNo=${boardNo}`,
+                `/api/board/lounge/delete/${boardNo}`,
                 null,
                 {
                     headers : {
@@ -35,4 +35,4 @@ const BoardDelete = ({ boardNo, onDeleteSuccess }) => {
     );
 };
 
-export default BoardDelete;
+export default LoungeDelete;
