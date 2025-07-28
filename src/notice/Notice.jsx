@@ -3,13 +3,14 @@ import axios from "axios";
 import NoticeDelete from "./NoticeDelete";
 import Pagination from "../util/pagination/Pagination";
 import '../css/notice/Notice.css';
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const Notice = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageInfo, setPageInfo] = useState(null);
+  const Navigate = useNavigate();
 
   // 필터 조건 상태
   const [keyword, setKeyword] = useState("");
@@ -72,7 +73,7 @@ const Notice = () => {
 
   return (
     <div className="container mt-5 notice-container">
-      <h1>공지사항</h1>
+      <h2>공지사항</h2>
 
       {/* 정렬 기준 + 검색 폼 */}
       <div className="d-flex justify-content-between align-items-center my-3 flex-wrap">
@@ -127,6 +128,7 @@ const Notice = () => {
               <th>작성자</th>
               <th>게시일</th>
               <th>조회수</th>
+              <th>수정 / 삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -144,12 +146,6 @@ const Notice = () => {
                   >
                     수정
                   </button>
-                  <NoticeDelete
-                    noticeNo={notice.noticeNo}
-                    onDeleteSuccess={fetchNotices}
-                  />
-                </td>
-                <td>
                   <NoticeDelete
                     noticeNo={notice.noticeNo}
                     onDeleteSuccess={fetchNotices}
