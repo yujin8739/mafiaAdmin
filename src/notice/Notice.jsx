@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NoticeDelete from "./NoticeDelete";
+import Pagination from "../util/pagination/Pagination";
+import '../css/notice/Notice.css';
+import { Navigate } from "react-router-dom";
+
 
 const Notice = () => {
   const [notices, setNotices] = useState([]);
@@ -11,7 +15,9 @@ const Notice = () => {
   const [keyword, setKeyword] = useState("");
   const [condition, setCondition] = useState("title");
   const [sort, setSort] = useState("byDate");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10;
 
   // 공지사항 불러오기 함수
   const fetchNotices = async () => {
@@ -19,7 +25,7 @@ const Notice = () => {
     try {
       const response = await axios.get("/api/notices", {
         params: {
-          currentPage: currentPage,
+          currentPage: page,
           keyword: keyword,
           condition: condition,
           sort: sort
@@ -31,6 +37,7 @@ const Notice = () => {
       });
       setNotices(response.data.noticeList);
       setPageInfo(response.data.pi);
+      setTotalPages(response.data.pi.maxPage);
     } catch (error) {
       console.error("공지사항 불러오기 실패:", error);
     } finally {
@@ -40,7 +47,7 @@ const Notice = () => {
   
   useEffect(() => {
     fetchNotices();
-  }, [currentPage, sort]);
+  }, [page, sort]);
 
   // 처음 로드될 때 1번 실행
   useEffect(() => {
@@ -55,25 +62,23 @@ const Notice = () => {
   // 검색 폼 제출 처리
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setCurrentPage(1);
+    setPage(1);
     fetchNotices();
   };
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= pageInfo.maxPage) {
-      setCurrentPage(page);
-    }
+  const handleUpdateClick = (notice) => {
+    Navigate(`/notice/update/${notice.noticeNo}`, { state: { notice } });
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 notice-container">
       <h1>공지사항</h1>
 
       {/* 정렬 기준 + 검색 폼 */}
       <div className="d-flex justify-content-between align-items-center my-3 flex-wrap">
         {/* 정렬 기준 */}
         <form className="form-inline">
-          <label className="mr-2 font-weight-bold">정렬 기준:</label>
+          <label className="mr-2 font-weight-bold">정렬 기준 : </label>
           <select
             className="form-control"
             value={sort}
@@ -110,7 +115,7 @@ const Notice = () => {
       {/* 목록 */}
       {loading ? (
         <p>로딩 중...</p>
-      ) : notices.length === 0 ? (
+      ) : !Array.isArray(notices) || notices.length === 0 ? (
         <p>조회된 공지사항이 없습니다.</p>
       ) : (
         <>
@@ -133,6 +138,18 @@ const Notice = () => {
                 <td>{notice.createDate?.slice(0, 10)}</td>
                 <td>{notice.count}</td>
                 <td>
+                  <button
+                    className="btn btn-warning btn-sm mr-2"
+                    onClick={() => handleUpdateClick(notice)}
+                  >
+                    수정
+                  </button>
+                  <NoticeDelete
+                    noticeNo={notice.noticeNo}
+                    onDeleteSuccess={fetchNotices}
+                  />
+                </td>
+                <td>
                   <NoticeDelete
                     noticeNo={notice.noticeNo}
                     onDeleteSuccess={fetchNotices}
@@ -143,47 +160,8 @@ const Notice = () => {
           </tbody>
         </table>
 
-        {pageInfo && (
-            <nav>
-              <ul className="pagination justify-content-center">
-                {/* 이전 버튼 */}
-                <li className={`page-item ${pageInfo.currentPage === 1 ? "disabled" : ""}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(pageInfo.currentPage - 1)}
-                  >
-                    이전
-                  </button>
-                </li>
-
-                {/* 페이지 번호 */}
-                {Array.from({ length: pageInfo.endPage - pageInfo.startPage + 1 }, (_, i) => {
-                  const page = pageInfo.startPage + i;
-                  return (
-                    <li
-                      key={page}
-                      className={`page-item ${page === pageInfo.currentPage ? "active" : ""}`}
-                    >
-                      <button className="page-link" onClick={() => handlePageChange(page)}>
-                        {page}
-                      </button>
-                    </li>
-                  );
-                })}
-
-                {/* 다음 버튼 */}
-                <li className={`page-item ${pageInfo.currentPage === pageInfo.maxPage ? "disabled" : ""}`}>
-                  <button
-                    className="page-link"
-                    onClick={() => handlePageChange(pageInfo.currentPage + 1)}
-                  >
-                    다음
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-          </>
+        <Pagination page={page} totalPages={totalPages} onPageChange={(newPage) => setPage(newPage)} />
+      </>
       )}
     </div>
   );
