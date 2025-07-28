@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import BoardDelete from "./BoardDelete";
-import '../css/board/Board.css';
+import LoungeDelete from "./LoungeDelete";
+import LoungeDetail from "./LoungeDetail";
+import '../css/board/Lounge.css';
 import Pagination from "../util/pagination/Pagination";
 
-const Board = () => {
+const Lounge = () => {
   const [boardList, setBoardList] = useState([]);
+  const [selectedBoard, setSelectedBoard] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10;
@@ -37,6 +39,10 @@ const Board = () => {
     setBoardList(boardList.filter((board) => board.boardNo !== deletedBoardNo));
   };
 
+  const handleRowClick = (board) => {
+        setSelectedBoard(board);
+  };
+
   return (
     <div className="board-container">
       <h2>관리자 게시글 목록</h2>
@@ -56,12 +62,12 @@ const Board = () => {
             </tr>
           ) : (
             boardList?.map((board) => (
-              <tr key={board.boardNo}>
+              <tr key={board.boardNo} onClick={() => handleRowClick(board)}>
                 <td>{board.boardNo}</td>
                 <td>{board.title}</td>
                 <td>{board.nickName}</td>
                 <td>
-                  <BoardDelete
+                  <LoungeDelete
                     boardNo={board.boardNo}
                     onDeleteSuccess={handleDeleteSuccess}
                   />
@@ -72,8 +78,9 @@ const Board = () => {
         </tbody>
       </table>
       <Pagination page={page} totalPages={totalPages} onPageChange={(newPage) => setPage(newPage)} />
+      <LoungeDetail selectedBoard={selectedBoard} onClose={() => setSelectedBoard(null)} />
     </div>
   );
 };
 
-export default Board;
+export default Lounge;
