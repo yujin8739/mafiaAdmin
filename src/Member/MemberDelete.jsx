@@ -12,7 +12,7 @@ const MemberDelete = () => {
       });
       console.log("삭제 응답:", response.data);
    };   
-   return (
+   return ( 
       <button onClick={handleDeleteMember}>Delete Member</button>
    );
 };
