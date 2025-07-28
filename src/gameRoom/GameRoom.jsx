@@ -60,7 +60,7 @@ function GameRoom() {
                     </tr>
                 </thead>
                 <tbody>
-                    {gameRooms.length > 0 ? (
+                    {gameRooms?.length > 0 ? (
                         gameRooms.map((room) => (
                             <tr key={room.roomNo} onClick={() => handleRowClick(room)} style={{ cursor: "pointer" }}>
                                 <td>{room.roomNo}</td>
