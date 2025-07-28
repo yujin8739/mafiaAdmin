@@ -5,6 +5,7 @@ import Notice from "../notice/Notice.jsx";
 import NoticeUpdate from "../notice/NoticeUpdate.jsx";
 import Board from "../board/Board.jsx"; 
 import GameRoom from "../gameRoom/GameRoom.jsx";
+import NoticeUpload from "../notice/NoticeUpload.jsx";
 
 function MainRouter() {
   return (
@@ -13,6 +14,7 @@ function MainRouter() {
       <Route path="/board" element={<Board />} />
       <Route path="/notice" element={<Notice />} />
       <Route path="/notice/update/:noticeNo" element={<NoticeUpdate />} />
+      <Route path="/notice/upload" element={<NoticeUpload />} />
       <Route path="/" element={<GameRoom />} />
     </Routes>
   );
