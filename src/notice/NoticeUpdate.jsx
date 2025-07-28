@@ -5,15 +5,18 @@ import axios from "axios";
 const NoticeUpdate = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const notice = location.state; // Notice.jsx에서 전달된 공지사항 데이터
 
-  const [title, setTitle] = useState(notice?.title || "");
-  const [content, setContent] = useState(notice?.content || "");
+  // ✅ navigate에서 전달된 notice 객체 가져오기
+  const notice = location.state?.notice || {};
+
+  // ✅ 초기값 설정
+  const [title, setTitle] = useState(notice.title || "");
+  const [content, setContent] = useState(notice.content || "");
   const [file, setFile] = useState(null);
 
-  // 기존 파일 정보
-  const [originName] = useState(notice?.originName || "");
-  const [changeName] = useState(notice?.changeName || "");
+  // ✅ 기존 파일 정보
+  const [originName] = useState(notice.originName || "");
+  const [changeName] = useState(notice.changeName || "");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -30,7 +33,7 @@ const NoticeUpdate = () => {
     try {
       const formData = new FormData();
 
-      // JSON 데이터를 Blob으로 변환
+      // ✅ JSON 데이터를 Blob으로 변환
       const updatedNotice = {
         noticeNo: notice.noticeNo,
         title,
@@ -47,7 +50,7 @@ const NoticeUpdate = () => {
         formData.append("file", file);
       }
 
-      // ✅ 매핑주소 반영
+      // ✅ API 호출
       const response = await axios.put(
         `/api/noticeUpdate/${notice.noticeNo}`,
         formData,
@@ -129,7 +132,7 @@ const NoticeUpdate = () => {
           <button
             type="button"
             className="btn btn-secondary ml-2"
-            onClick={() => navigate("/admin/notice")}
+            onClick={() => navigate("/notice")}
           >
             취소
           </button>
