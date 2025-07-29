@@ -5,15 +5,13 @@ import Notice from "../notice/Notice.jsx";
 import Lounge from "../board/Lounge.jsx"; 
 import NoticeUpdate from "../notice/NoticeUpdate.jsx";
 import GameRoom from "../gameRoom/GameRoom.jsx";
-<<<<<<< HEAD
 import ArtShop from "../artshop/ArtShop.jsx";
-=======
 import Message from "../message/Message.jsx"
 import NoticeUpload from "../notice/NoticeUpload.jsx";
 import Report from "../report/report.jsx";
 
 
->>>>>>> refs/remotes/origin/main
+
 function MainRouter() {
   return (
     <Routes>
@@ -24,11 +22,8 @@ function MainRouter() {
       <Route path="/notice/upload" element={<NoticeUpload />} />
       <Route path="/report" element={<Report/>}/>
       <Route path="/" element={<GameRoom />} />
-<<<<<<< HEAD
       <Route path="/artshop" element={<ArtShop />} />
-=======
       <Route path="/message" element={<Message />} />
->>>>>>> refs/remotes/origin/main
     </Routes>
   );
 }
