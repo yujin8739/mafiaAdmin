@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../css/notice/NoticeUpdate.css'; 
 
+
+
 const NoticeUpdate = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,6 +20,32 @@ const NoticeUpdate = () => {
   // ✅ 기존 파일 정보
   const [originName] = useState(notice.originName || "");
   const [changeName] = useState(notice.changeName || "");
+
+  const downloadFile = async (filePath, fileName) => {
+    try {
+      const response = await axios.get(
+        `/api/download/${filePath}`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      // Blob 데이터를 가상 링크로 만들어 강제 다운로드
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName); // 실제 다운로드 파일명 지정
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error("파일 다운로드 실패:", error);
+      alert("파일을 다운로드할 수 없습니다.");
+    }
+  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -103,9 +131,18 @@ const NoticeUpdate = () => {
           <div className="file-info">
             <label className="form-label">현재 업로드된 파일: </label>
             {originName ? (
-              <a href={changeName} download={originName} className="file-link">
-                {originName}
-              </a>
+            <button
+              type="button"
+              className="btn btn-link p-0"
+              onClick={() =>
+                downloadFile(
+                  changeName.split("/").pop(), // 서버에 보낼 실제 파일명
+                  originName // 사용자에게 보여줄 원본 파일명
+                )
+              }
+            >
+              {originName}
+            </button>
             ) : (
               <span className="file-none">첨부파일이 없습니다.</span>
             )}
