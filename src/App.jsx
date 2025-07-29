@@ -28,6 +28,7 @@ function App() {
         <Link to="/lounge">게시글</Link> |
         <Link to="/notice">공지사항</Link> |
         <Link to="/profile">프로필</Link> |
+        <Link to="/report">신고내역</Link> |
         {isLoggedIn ? (
           <button className="logout-button" onClick={handleLogout}>
             로그아웃

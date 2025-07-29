@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReportManager from "../report/ReportManager"
 
 function Report() {
     const [reportList, setReportList] = React.useState([]);
@@ -28,6 +29,10 @@ function Report() {
         setSelectedRoom(room);
     };
 
+    const handleReportManager = (reportedName) => {
+        setReportedName(reportedName);
+    };
+
     React.useEffect(() => { handleReportList(page); }, [page]);
 
     const token = localStorage.getItem("token");
@@ -47,18 +52,24 @@ function Report() {
                 <thead>
                     <tr>
                         <th>신고번호</th>
-                        <th>신고자명</th>
-                        <th>신고내용</th>
-                        <th>신고게시글</th>
+                        <th>신고자ID</th>
+                        <th>대상ID</th>
+                        <th>신고사유</th>
+                        <th>날짜</th>
                         <th>신고처리</th>
                     </tr>
                 </thead>
                 <tbody>
                     {reportList>0?
                         reportList.map((report)=>(
-                            <tr key={report.reportNo} onClick={() => {handleRowClick(report.reportNo)}} style={{ cursor: "pointer" }}>
-                                <td>{report.reportNo}</td>
-                                <td>{report.reportUser}</td>
+                            <tr key={report.reportId} onClick={() => {handleRowClick(report.reportNo)}} style={{ cursor: "pointer" }}>
+                                <td>{report.reporterId}</td>
+                                <td>{report.reportedName}</td>
+                                <td>{report.reason}</td>
+                                <td>{report.reportedat}</td>
+                                <td>
+                                    <button onClick={() => handleReportManager(report.reportedName)}>신고처리</button>
+                                </td>
                             </tr>
                         )
                     ) : (
@@ -71,8 +82,9 @@ function Report() {
                 </tbody>
             </table>
 
+            <ReportManager onClose={() => setSelectedRoom(null)} />
             <Pagination page={page} totalPages={totalPages} onPageChange={(newPage) => setPage(newPage)} />
-            <GameRoomDetail selectedRoom={selectedRoom} onClose={() => setSelectedRoom(null)} />
+            
         </div>
     );
 
