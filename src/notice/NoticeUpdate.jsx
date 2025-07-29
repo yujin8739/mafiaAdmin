@@ -71,7 +71,7 @@ const NoticeUpdate = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <h3 className="mb-4">공지사항 수정</h3>
 
       <form onSubmit={handleUpdate} encType="multipart/form-data">

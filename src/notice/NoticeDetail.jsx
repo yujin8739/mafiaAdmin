@@ -1,17 +1,18 @@
 import React from "react";
+import "../css/notice/NoticeDetail.css";
 
 const NoticeDetail = ({ selectedNotice, onClose }) => {
   if (!selectedNotice) return null;
 
   return (
-    <div className="notice-detail-block p-4 border rounded bg-light mt-3">
+    <div className="notice-detail-block">
       {/* 제목 & 닫기 버튼 */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="notice-header">
         <h4 className="mb-0">{selectedNotice.title}</h4>
       </div>
 
       {/* 작성일 + 첨부파일 + 조회수 */}
-      <div className="d-flex justify-content-start text-muted small mb-3 flex-wrap">
+      <div className="notice-meta">
         <div className="mr-3">
           작성일: {selectedNotice.createDate?.slice(0, 10) || "-"}
         </div>
@@ -33,7 +34,7 @@ const NoticeDetail = ({ selectedNotice, onClose }) => {
         {selectedNotice.content || "내용이 없습니다."}
       </div>
 
-      <button className="btn btn-secondary btn-sm" onClick={onClose}>
+      <button className="notice-close-btn" onClick={onClose}>
         닫기
       </button>
     </div>
