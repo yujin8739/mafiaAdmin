@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import MessageDetail from "./MessageDetail.jsx";
+import MessageEdit from "./MessageEdit.jsx";
 import '../css/message/Message.css';
 
 const MessageList = () => {
@@ -8,9 +10,13 @@ const MessageList = () => {
     const [selectedMessages, setSelectedMessages] = useState([]);
     const [deleting, setDeleting] = useState(false);
     
-    // 모달 상태 관리
+    // 상세보기 모달 상태 관리
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedMessageId, setSelectedMessageId] = useState(null);
+    
+    // 수정 모달 상태 관리
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editMessageId, setEditMessageId] = useState(null);
 
     // 쪽지 목록 조회
     const fetchMessages = async () => {
@@ -130,6 +136,23 @@ const MessageList = () => {
         setSelectedMessageId(null);
     };
 
+    // 수정 모달 열기
+    const handleShowEdit = (messageId) => {
+        setEditMessageId(messageId);
+        setShowEditModal(true);
+    };
+
+    // 수정 모달 닫기
+    const handleCloseEdit = () => {
+        setShowEditModal(false);
+        setEditMessageId(null);
+    };
+
+    // 수정 완료 후 목록 새로고침
+    const handleUpdateComplete = () => {
+        fetchMessages();
+    };
+
     if (loading) return <div className="loading">로딩 중...</div>;
 
     return (
@@ -207,7 +230,7 @@ const MessageList = () => {
                                     </button>
                                     <button 
                                         className="btn btn-primary btn-sm"
-                                        onClick={() => alert(`수정 기능 준비중 - 쪽지번호: ${msg.privateMsgNo}`)}
+                                        onClick={() => handleShowEdit(msg.privateMsgNo)}
                                     >
                                         수정
                                     </button>
@@ -233,6 +256,15 @@ const MessageList = () => {
                 <MessageDetail 
                     messageId={selectedMessageId}
                     onClose={handleCloseDetail}
+                />
+            )}
+            
+            {/* 수정 모달 */}
+            {showEditModal && (
+                <MessageEdit 
+                    messageId={editMessageId}
+                    onClose={handleCloseEdit}
+                    onUpdate={handleUpdateComplete}
                 />
             )}
         </div>
