@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../css/notice/NoticeUpdate.css'; 
 
 const NoticeUpdate = () => {
   const location = useLocation();
@@ -71,17 +72,17 @@ const NoticeUpdate = () => {
   };
 
   return (
-    <div className="container">
-      <h3 className="mb-4">공지사항 수정</h3>
+    <div className="update-container">
+      <h3 className="update-title">공지사항 수정</h3>
 
-      <form onSubmit={handleUpdate} encType="multipart/form-data">
+      <form onSubmit={handleUpdate} encType="multipart/form-data" className="update-form">
         {/* 제목 */}
         <div className="form-group">
-          <label htmlFor="title">제목</label>
+          <label htmlFor="title" className="form-label">제목</label>
           <input
             type="text"
             id="title"
-            className="form-control"
+            className="form-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -90,33 +91,33 @@ const NoticeUpdate = () => {
 
         {/* 첨부파일 */}
         <div className="form-group mt-3">
-          <label htmlFor="upfile">첨부파일</label>
+          <label htmlFor="upfile" className="form-label">첨부파일</label>
           <input
             type="file"
             id="upfile"
-            className="form-control-file border"
+            className="form-file2"
             onChange={handleFileChange}
           />
 
           {/* 기존 파일 정보 */}
-          <div className="mt-2">
-            <label>현재 업로드된 파일: </label>
+          <div className="file-info">
+            <label className="form-label">현재 업로드된 파일: </label>
             {originName ? (
-              <a href={changeName} download={originName}>
+              <a href={changeName} download={originName} className="file-link">
                 {originName}
               </a>
             ) : (
-              <span>첨부파일이 없습니다.</span>
+              <span className="file-none">첨부파일이 없습니다.</span>
             )}
           </div>
         </div>
 
         {/* 내용 */}
         <div className="form-group mt-3">
-          <label htmlFor="content">내용</label>
+          <label htmlFor="content" className="form-label">내용</label>
           <textarea
             id="content"
-            className="form-control"
+            className="form-content"
             rows="10"
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -125,13 +126,13 @@ const NoticeUpdate = () => {
         </div>
 
         {/* 버튼 */}
-        <div className="text-center mt-4">
-          <button type="submit" className="btn btn-primary">
+        <div className="btn-area">
+          <button type="submit" className="update-btn">
             수정하기
           </button>
           <button
             type="button"
-            className="btn btn-secondary ml-2"
+            className="cancel-btn"
             onClick={() => navigate("/notice")}
           >
             취소
