@@ -130,7 +130,7 @@ const MessageList = () => {
         setSelectedMessageId(null);
     };
 
-    if (loading) return <div>로딩 중...</div>;
+    if (loading) return <div className="loading">로딩 중...</div>;
 
     return (
         <div>

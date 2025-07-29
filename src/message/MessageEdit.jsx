@@ -15,34 +15,34 @@ const MessageEdit = ({ messageId, onClose, onUpdate }) => {
     const [saving, setSaving] = useState(false);
 
     // 쪽지 상세 조회
-    const fetchMessage = async () => {
-        try {
-            const response = await axios.get(`/api/messages/${messageId}`, {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token")
-                }
-            });
-            
-            if (response.data.success) {
-                setMessage(response.data.message);
-            } else {
-                alert("쪽지를 불러올 수 없습니다: " + response.data.message);
-                onClose();
-            }
-        } catch (error) {
-            console.error("쪽지 조회 실패:", error);
-            alert("쪽지 조회에 실패했습니다.");
-            onClose();
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchMessage = async () => {
+            try {
+                const response = await axios.get(`/api/messages/${messageId}`, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    }
+                });
+                
+                if (response.data.success) {
+                    setMessage(response.data.message);
+                } else {
+                    alert("쪽지를 불러올 수 없습니다: " + response.data.message);
+                    onClose();
+                }
+            } catch (error) {
+                console.error("쪽지 조회 실패:", error);
+                alert("쪽지 조회에 실패했습니다.");
+                onClose();
+            } finally {
+                setLoading(false);
+            }
+        };
+
         if (messageId) {
             fetchMessage();
         }
-    }, [messageId]);
+    }, [messageId, onClose]);
 
     // 입력값 변경 처리
     const handleChange = (e) => {
