@@ -21,7 +21,7 @@ const NoticeDelete = ({ noticeNo, onDeleteSuccess }) => {
   };
 
   return (
-    <button className="btn btn-danger btn-sm" onClick={handleDelete}>
+    <button className="custom-delete-btn" onClick={handleDelete}>
       삭제
     </button>
   );
