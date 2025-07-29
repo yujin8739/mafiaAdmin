@@ -3,13 +3,15 @@ import axios from "axios";
 import NoticeDelete from "./NoticeDelete";
 import Pagination from "../util/pagination/Pagination";
 import '../css/notice/Notice.css';
-import { Navigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import NoticeDetail from "./NoticeDetail";
 
 const Notice = () => {
   const [notices, setNotices] = useState([]);
+  const [selectedNotice, setSelectedNotice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pageInfo, setPageInfo] = useState(null);
+  const Navigate = useNavigate();
 
   // 필터 조건 상태
   const [keyword, setKeyword] = useState("");
@@ -70,46 +72,61 @@ const Notice = () => {
     Navigate(`/notice/update/${notice.noticeNo}`, { state: { notice } });
   };
 
+  const navigate = useNavigate();
+
+  const handleRowClick = (notice) => {
+    setSelectedNotice(notice);
+  };
+
   return (
-    <div className="container mt-5 notice-container">
-      <h1>공지사항</h1>
+    <div className="notice-container">
+      <h2>공지사항</h2>
+      <div className="notice-header-bar">
+        {/* 공지사항 등록 버튼 */}
+        <button
+          className="btn btn-primary notice-upload-btn"
+          onClick={() => navigate("/notice/upload")}
+        >
+          공지사항 등록
+        </button>
 
-      {/* 정렬 기준 + 검색 폼 */}
-      <div className="d-flex justify-content-between align-items-center my-3 flex-wrap">
-        {/* 정렬 기준 */}
-        <form className="form-inline">
-          <label className="mr-2 font-weight-bold">정렬 기준 : </label>
-          <select
-            className="form-control"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="byDate">게시일 순</option>
-            <option value="count">조회수 순</option>
-          </select>
-        </form>
+        {/* 정렬 + 검색 영역 */}
+        <div className="d-flex align-items-center flex-wrap">
+          {/* 정렬 */}
+          <form className="form-inline mr-3">
+            <label className="mr-2 font-weight-bold">정렬 :</label>
+            <select
+              className="form-control"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="byDate">게시일 순</option>
+              <option value="count">조회수 순</option>
+            </select>
+          </form>
 
-        {/* 검색 폼 */}
-        <form className="form-inline" onSubmit={handleSearchSubmit}>
-          <select
-            className="form-control mr-2"
-            value={condition}
-            onChange={(e) => setCondition(e.target.value)}
-          >
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-          </select>
-          <input
-            type="text"
-            className="form-control mr-2"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="검색어 입력"
-          />
-          <button type="submit" className="btn btn-secondary">
-            검색
-          </button>
-        </form>
+          {/* 검색 */}
+          <form className="form-inline d-flex" onSubmit={handleSearchSubmit}>
+            <select
+              className="form-control mr-2"
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+            >
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+            </select>
+            <input
+              type="text"
+              className="form-control mr-2"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="검색어 입력"
+            />
+            <button type="submit" className="btn btn-secondary">
+              검색
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* 목록 */}
@@ -127,35 +144,51 @@ const Notice = () => {
               <th>작성자</th>
               <th>게시일</th>
               <th>조회수</th>
+              <th>수정 / 삭제</th>
             </tr>
           </thead>
           <tbody>
             {notices.map((notice) => (
-              <tr key={notice.noticeNo}>
-                <td>{notice.noticeNo}</td>
-                <td>{notice.title}</td>
-                <td>관리자</td>
-                <td>{notice.createDate?.slice(0, 10)}</td>
-                <td>{notice.count}</td>
-                <td>
-                  <button
-                    className="btn btn-warning btn-sm mr-2"
-                    onClick={() => handleUpdateClick(notice)}
+              <React.Fragment key={notice.noticeNo}>
+                  <tr
+                    onClick={() => handleRowClick(notice)}
+                    style={{
+                      cursor: "pointer",
+                      backgroundColor:
+                        selectedNotice?.noticeNo === notice.noticeNo
+                          ? "#f9f9f9"
+                          : "white",
+                    }}
                   >
-                    수정
-                  </button>
-                  <NoticeDelete
-                    noticeNo={notice.noticeNo}
-                    onDeleteSuccess={fetchNotices}
-                  />
-                </td>
-                <td>
-                  <NoticeDelete
-                    noticeNo={notice.noticeNo}
-                    onDeleteSuccess={fetchNotices}
-                  />
-                </td>
-              </tr>
+                    <td>{notice.noticeNo}</td>
+                    <td>{notice.title}</td>
+                    <td>관리자</td>
+                    <td>{notice.createDate?.slice(0, 10)}</td>
+                    <td>{notice.count}</td>
+                    <td>
+                      <button
+                        className="custom-update-btn"
+                        onClick={(e) => handleUpdateClick(notice, e)}
+                      >
+                        수정
+                      </button>
+                      <NoticeDelete
+                        noticeNo={notice.noticeNo}
+                        onDeleteSuccess={fetchNotices}
+                      />
+                    </td>
+                  </tr>
+                  {selectedNotice?.noticeNo === notice.noticeNo && (
+                    <tr>
+                      <td colSpan="6" style={{ padding: 0 }}>
+                        <NoticeDetail
+                          selectedNotice={selectedNotice}
+                          onClose={() => setSelectedNotice(null)}
+                        />
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
             ))}
           </tbody>
         </table>
