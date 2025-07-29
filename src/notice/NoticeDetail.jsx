@@ -47,7 +47,8 @@ const NoticeDetail = ({ selectedNotice, onClose }) => {
           첨부파일:{" "}
           {selectedNotice.originName ? (
             <button
-              className="btn btn-link p-0"
+              className="download-btn"
+              type="button"
               onClick={() =>
                 downloadFile(
                   selectedNotice.changeName.split("/").pop(), // 서버에 보낼 실제 파일명
