@@ -91,10 +91,10 @@ const Notice = () => {
         </button>
 
         {/* 정렬 + 검색 영역 */}
-        <div className="d-flex align-items-center flex-wrap">
+        <div>
           {/* 정렬 */}
           <form className="form-inline mr-3">
-            <label className="mr-2 font-weight-bold">정렬 :</label>
+            <label>정렬 :</label>
             <select
               className="form-control"
               value={sort}
@@ -106,7 +106,7 @@ const Notice = () => {
           </form>
 
           {/* 검색 */}
-          <form className="form-inline d-flex" onSubmit={handleSearchSubmit}>
+          <form onSubmit={handleSearchSubmit}>
             <select
               className="form-control mr-2"
               value={condition}

@@ -1,0 +1,67 @@
+.reply-list-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.reply-list-container h4 {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.no-reply {
+  color: #888;
+  font-style: italic;
+}
+
+.reply-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reply-item {
+  border-bottom: 1px solid #ddd;
+  padding: 12px 0;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #444;
+}
+
+.reply-content {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #222;
+}
+
+.reply-file {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.reply-file:hover {
+  text-decoration: underline;
+}
+
+.reply-delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.reply-delete-btn:hover {
+  background-color: #c62828;
+}

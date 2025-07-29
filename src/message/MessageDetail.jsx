@@ -6,35 +6,36 @@ const MessageDetail = ({ messageId, onClose }) => {
     const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // 쪽지 상세 조회
-    const fetchMessage = async () => {
-        try {
-            const response = await axios.get(`/api/messages/${messageId}`, {
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token")
-                }
-            });
-            
-            if (response.data.success) {
-                setMessage(response.data.message);
-            } else {
-                alert("쪽지를 불러올 수 없습니다: " + response.data.message);
-                onClose();
-            }
-        } catch (error) {
-            console.error("쪽지 조회 실패:", error);
-            alert("쪽지 조회에 실패했습니다.");
-            onClose();
-        } finally {
-            setLoading(false);
-        }
-    };
+    // 쪽지 상세 조회 함수는 useEffect 내부에만 존재합니다.
 
     useEffect(() => {
+        const fetchMessage = async () => {
+            try {
+                const response = await axios.get(`/api/messages/${messageId}`, {
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    }
+                });
+                
+                if (response.data.success) {
+                    setMessage(response.data.message);
+                } else {
+                    alert("쪽지를 불러올 수 없습니다: " + response.data.message);
+                    onClose();
+                }
+            } catch (error) {
+                console.error("쪽지 조회 실패:", error);
+                alert("쪽지 조회에 실패했습니다.");
+                onClose();
+            } finally {
+                setLoading(false);
+            }
+        };
+
         if (messageId) {
             fetchMessage();
         }
-    }, [messageId]);
+    }, [messageId, onClose]);
 
     // 날짜 포맷
     function formatDate(dateString) {
@@ -71,7 +72,7 @@ const MessageDetail = ({ messageId, onClose }) => {
                         <h3>쪽지 상세보기</h3>
                         <button className="btn btn-secondary" onClick={onClose}>×</button>
                     </div>
-                    <div className="modal-body">
+                    <div className="loading-text">
                         <div>로딩 중...</div>
                     </div>
                 </div>
