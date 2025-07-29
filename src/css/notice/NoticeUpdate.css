@@ -1,0 +1,105 @@
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #eef1f5;
+  margin: 0;
+  padding: 0;
+}
+
+.update-container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.update-title {
+  text-align: center !important;
+  font-size: 1.8rem !important;
+  font-weight: bold !important;
+  margin-bottom: 25px !important;
+}
+
+.update-form {
+  padding: 0 10px !important; /* 양쪽 여백 */
+}
+
+.form-label {
+  font-weight: bold !important;
+  display: block !important;
+  margin-bottom: 8px !important;
+  color: #333 !important;
+}
+
+.form-title,
+.form-file,
+.form-content {
+  width: 95% !important; /* 전체를 살짝 줄임 */
+  margin: 0 auto !important; /* 가운데 정렬 */
+  display: block !important;
+  padding: 10px 14px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+}
+
+.form-title:focus,
+.form-content:focus {
+  border-color: #007bff !important;
+  outline: none !important;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3) !important;
+}
+
+.file-info {
+  margin-top: 8px !important;
+}
+
+.file-link {
+  color: #007bff !important;
+  text-decoration: none !important;
+}
+
+.file-link:hover {
+  text-decoration: underline !important;
+}
+
+.file-none {
+  color: #999 !important;
+}
+
+.btn-area {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 30px !important;
+  gap: 12px !important;
+}
+
+.update-btn {
+  background-color: #007bff !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  font-size: 1rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+}
+
+.update-btn:hover {
+  background-color: #0056b3 !important;
+}
+
+.cancel-btn {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  font-size: 1rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+}
+
+.cancel-btn:hover {
+  background-color: #a71d2a !important;
+}
