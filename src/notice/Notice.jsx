@@ -6,7 +6,6 @@ import '../css/notice/Notice.css';
 import { useNavigate } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
 
-
 const Notice = () => {
   const [notices, setNotices] = useState([]);
   const [selectedNotice, setSelectedNotice] = useState(null);
@@ -80,50 +79,54 @@ const Notice = () => {
   };
 
   return (
-    <div className="container mt-5 notice-container">
+    <div className="notice-container">
       <h2>공지사항</h2>
-      <button
-        className="btn btn-primary"
-        onClick={() => navigate("/notice/upload")}
-      >
-        공지사항 등록
-      </button>
-      {/* 정렬 기준 + 검색 폼 */}
-      <div className="d-flex justify-content-between align-items-center my-3 flex-wrap">
-        {/* 정렬 기준 */}
-        <form className="form-inline">
-          <label className="mr-2 font-weight-bold">정렬 기준 : </label>
-          <select
-            className="form-control"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="byDate">게시일 순</option>
-            <option value="count">조회수 순</option>
-          </select>
-        </form>
+      <div className="notice-header-bar">
+        {/* 공지사항 등록 버튼 */}
+        <button
+          className="btn btn-primary notice-upload-btn"
+          onClick={() => navigate("/notice/upload")}
+        >
+          공지사항 등록
+        </button>
 
-        {/* 검색 폼 */}
-        <form className="form-inline" onSubmit={handleSearchSubmit}>
-          <select
-            className="form-control mr-2"
-            value={condition}
-            onChange={(e) => setCondition(e.target.value)}
-          >
-            <option value="title">제목</option>
-            <option value="content">내용</option>
-          </select>
-          <input
-            type="text"
-            className="form-control mr-2"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="검색어 입력"
-          />
-          <button type="submit" className="btn btn-secondary">
-            검색
-          </button>
-        </form>
+        {/* 정렬 + 검색 영역 */}
+        <div className="d-flex align-items-center flex-wrap">
+          {/* 정렬 */}
+          <form className="form-inline mr-3">
+            <label className="mr-2 font-weight-bold">정렬 :</label>
+            <select
+              className="form-control"
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="byDate">게시일 순</option>
+              <option value="count">조회수 순</option>
+            </select>
+          </form>
+
+          {/* 검색 */}
+          <form className="form-inline d-flex" onSubmit={handleSearchSubmit}>
+            <select
+              className="form-control mr-2"
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+            >
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+            </select>
+            <input
+              type="text"
+              className="form-control mr-2"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="검색어 입력"
+            />
+            <button type="submit" className="btn btn-secondary">
+              검색
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* 목록 */}
@@ -164,7 +167,7 @@ const Notice = () => {
                     <td>{notice.count}</td>
                     <td>
                       <button
-                        className="btn btn-warning btn-sm mr-2"
+                        className="custom-update-btn"
                         onClick={(e) => handleUpdateClick(notice, e)}
                       >
                         수정
