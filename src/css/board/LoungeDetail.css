@@ -1,0 +1,76 @@
+.lounge-detail-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.lounge-detail-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  width: 90%;
+  max-width: 800px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.lounge-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.lounge-detail-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #f44336;
+}
+
+.lounge-detail-body p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.board-content {
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+.file-section {
+  margin-bottom: 16px;
+}
+
+.file-download-btn {
+  background: none;
+  border: none;
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+  display: block;
+  padding: 4px 0;
+  font-size: 0.95rem;
+}
+
+.file-download-btn:hover {
+  color: #004ba0;
+}
+
+.reply-section {
+  margin-top: 16px;
+}

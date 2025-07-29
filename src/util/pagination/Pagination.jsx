@@ -7,6 +7,10 @@ const Pagination = ({ page, totalPages, onPageChange }) => {
         if (page < totalPages) onPageChange(page + 1);
     };
 
+    if(totalPages === 0){
+        return;
+    }
+
     // This function can be used to refresh the game room list if needed
     // For now, it is not implemented
     return (
