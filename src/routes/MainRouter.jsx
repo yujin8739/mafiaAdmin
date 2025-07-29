@@ -4,6 +4,7 @@ import AxiosLogin from "../login/Login.jsx";
 import Notice from "../notice/Notice.jsx";
 import Board from "../board/Board.jsx"; 
 import GameRoom from "../gameRoom/GameRoom.jsx";
+import Message from "../message/Message.jsx"
 
 function MainRouter() {
   return (
@@ -12,6 +13,7 @@ function MainRouter() {
       <Route path="/board" element={<Board />} />
       <Route path="/notice" element={<Notice />} />
       <Route path="/" element={<GameRoom />} />
+      <Route path="/message" element={<Message />} />
     </Routes>
   );
 }
