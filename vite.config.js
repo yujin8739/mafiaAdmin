@@ -13,12 +13,6 @@ export default defineConfig({
           secure : false, // https 인증서 검증 여부 (개발 환경에선 false로 설정후 사용)
           rewrite : (path) => `${path}` //기존 api 경로를 contextRoot 를 추가한 경로로 요청
       },
-      '/godDaddy_uploadImage' : {
-        target : 'http://localhost:8081',
-        changeOrigin : true,
-        secure : false,
-        rewrite : (path) => `${path}`
-      },
       '/resources/uploadFile' : {
         target : 'http://localhost:8081',
         changeOrigin : true,
