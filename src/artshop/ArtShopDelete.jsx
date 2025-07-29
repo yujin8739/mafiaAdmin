@@ -2,7 +2,9 @@
 import axios from "axios";
 
 const ArtShopDelete = ({ artId, onDelete }) => {
-  const handleArtDelete = async () => {
+  const handleArtDelete = async (e) => {
+    e.stopPropagation(); // 행(row) 클릭 이벤트 방지
+
     const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
     if (!confirmDelete) return;
 
@@ -18,7 +20,7 @@ const ArtShopDelete = ({ artId, onDelete }) => {
         }
       );
       alert("삭제 완료");
-      onDelete(); // 부모에게 삭제 후 처리 알려주기
+      onDelete(); // 부모 컴포넌트에 삭제 완료 알림
     } catch (error) {
       console.error("삭제 실패", error);
       alert("삭제 실패");
