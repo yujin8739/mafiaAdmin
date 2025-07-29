@@ -2,8 +2,6 @@ import MessageList from "./MessageList.jsx";
 import MessageSearch from "./MessageSearch.jsx";
 import MessageDelete from "./MessageDelete.jsx";
 import "../css/message/Message.css";
-import MessageDetail from "./MessageDetail.jsx";
-import MessageEdit from "./MessageEdit.jsx";
 
 const Message = () => {
    return (
@@ -12,8 +10,6 @@ const Message = () => {
          <MessageSearch/>
          <MessageDelete/>
          <MessageList/>
-         <MessageDetail/>
-         <MessageEdit/>
       </div>
    )
 };   
