@@ -367,6 +367,61 @@ input[type="checkbox"] {
   margin: 0 10px;
 }
 
+/* 페이지네이션 컨테이너 */
+.pagination-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* 페이지네이션 버튼 - 기본 */
+.pagination-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0 2px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+/* 활성 페이지 버튼 */
+.pagination-btn.active {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+  font-weight: bold;
+}
+
+.pagination-btn:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  border-color: #dee2e6;
+}
+
+/* 페이지 점 표시 (...) */
+.pagination-dots {
+  color: #6c757d;
+  font-weight: bold;
+  margin: 0 8px;
+  font-size: 16px;
+}
+
+/* 페이지네이션 정보 */
+.pagination-info {
+  margin-top: 15px;
+  color: #6c757d;
+  font-size: 14px;
+}
+
 /* 반응형 */
 @media screen and (max-width: 768px) {
   .message-container {
@@ -553,4 +608,130 @@ input[type="checkbox"] {
   white-space: pre-wrap;
   font-size: 14px;
   min-height: 100px;
+}
+
+/* MessageEdit 폼 스타일 개선 */
+.modal-content form .form-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 0;
+}
+
+.modal-content form .form-group:last-child {
+  border-bottom: none;
+}
+
+.modal-content form .form-group label {
+  font-weight: bold;
+  color: #2c3e50;
+  min-width: 120px;
+  flex-shrink: 0;
+  padding-top: 12px;
+  font-size: 14px;
+}
+
+/* Form-control 요소들 스타일링 */
+.modal-content .form-control {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.modal-content .form-control:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+  background-color: white;
+}
+
+/* 비활성화된 입력 필드 */
+.modal-content .form-control:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+  border-color: #e9ecef;
+}
+
+/* Select 박스 특별 스타일 */
+.modal-content select.form-control {
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.modal-content select.form-control option {
+  background-color: white;
+  color: #333;
+  padding: 8px;
+}
+
+/* Textarea 특별 스타일 */
+.modal-content textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+  background-color: white;
+  color: #333;
+  font-family: inherit;
+}
+
+.modal-content textarea.form-control::placeholder,
+.modal-content input.form-control::placeholder {
+  color: #adb5bd;
+  font-style: italic;
+}
+
+/* 내용 필드가 있는 form-group을 content-section처럼 스타일링 */
+.modal-content form .form-group:has(textarea) {
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: 20px;
+  border-top: 2px solid #eee;
+  margin-top: 10px;
+}
+
+.modal-content form .form-group:has(textarea) label {
+  min-width: auto;
+  padding-top: 0;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* 호버 효과 */
+.modal-content .form-control:hover:not(:disabled):not(:focus) {
+  border-color: #c3e6cb;
+}
+
+/* 반응형 - 모바일에서 세로 배치 */
+@media screen and (max-width: 768px) {
+  .modal-content form .form-group {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+  
+  .modal-content form .form-group label {
+    min-width: auto;
+    padding-top: 0;
+    margin-bottom: 5px;
+  }
+  
+  .modal-content form .form-group:has(textarea) {
+    flex-direction: column;
+  }
 }

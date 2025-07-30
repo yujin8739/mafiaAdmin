@@ -18,18 +18,31 @@ const MessageList = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [editMessageId, setEditMessageId] = useState(null);
 
-    // 쪽지 목록 조회
-    const fetchMessages = async () => {
+    // 페이지네이션 상태 추가
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize] = useState(10);
+    const [totalCount, setTotalCount] = useState(0);
+    const [pageInfo, setPageInfo] = useState(null);
+
+    // 쪽지 목록 조회 - 페이지네이션 파라미터 추가
+    const fetchMessages = async (page = 1) => {
         setLoading(true);
         try {
             const response = await axios.get("/api/messages", {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                params: {
+                    page: page,
+                    size: pageSize
                 }
             });
             
             if (response.data.success) {
                 setMessages(response.data.messages || []);
+                setTotalCount(response.data.totalCount || 0);
+                setPageInfo(response.data.pageInfo);
+                setCurrentPage(page);
             } else {
                 console.error("쪽지 조회 실패:", response.data.message);
             }
@@ -87,7 +100,7 @@ const MessageList = () => {
             if (response.data.success) {
                 alert(`${response.data.deletedCount}개의 쪽지가 삭제되었습니다.`);
                 setSelectedMessages([]); // 선택 초기화
-                fetchMessages(); // 목록 새로고침
+                fetchMessages(currentPage); // 현재 페이지로 새로고침
             } else {
                 alert("삭제 실패: " + response.data.message);
             }
@@ -114,7 +127,7 @@ const MessageList = () => {
 
             if (response.data.success) {
                 alert("쪽지가 삭제되었습니다.");
-                fetchMessages(); // 목록 새로고침
+                fetchMessages(currentPage); // 현재 페이지로 새로고침
             } else {
                 alert("삭제 실패: " + response.data.message);
             }
@@ -150,7 +163,102 @@ const MessageList = () => {
 
     // 수정 완료 후 목록 새로고침
     const handleUpdateComplete = () => {
-        fetchMessages();
+        fetchMessages(currentPage);
+    };
+
+    // 페이지 변경 핸들러 추가
+    const handlePageChange = (page) => {
+        fetchMessages(page);
+        setSelectedMessages([]); // 페이지 변경 시 선택 초기화
+    };
+
+    // 페이지네이션 컴포넌트
+    const renderPagination = () => {
+        if (!pageInfo || totalCount === 0) return null;
+
+        const totalPages = pageInfo.maxPage;
+        const pages = [];
+
+        // 이전 버튼 (항상 표시)
+        pages.push(
+            <button 
+                key="prev" 
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+            >
+                이전
+            </button>
+        );
+
+        // 페이지 번호들
+        const startPage = Math.max(1, currentPage - 2);
+        const endPage = Math.min(totalPages, currentPage + 2);
+
+        if (startPage > 1) {
+            pages.push(
+                <button 
+                    key={1} 
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(1)}
+                >
+                    1
+                </button>
+            );
+            if (startPage > 2) {
+                pages.push(<span key="dots1" className="pagination-dots">...</span>);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+                <button 
+                    key={i} 
+                    className={`pagination-btn ${i === currentPage ? 'active' : ''}`}
+                    onClick={() => handlePageChange(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                pages.push(<span key="dots2" className="pagination-dots">...</span>);
+            }
+            pages.push(
+                <button 
+                    key={totalPages} 
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(totalPages)}
+                >
+                    {totalPages}
+                </button>
+            );
+        }
+
+        // 다음 버튼 (항상 표시)
+        pages.push(
+            <button 
+                key="next" 
+                className="pagination-btn"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+            >
+                다음
+            </button>
+        );
+
+        return (
+            <div className="pagination-container">
+                <div className="pagination">
+                    {pages}
+                </div>
+                <div className="pagination-info">
+                    총 {totalCount}개 중 {((currentPage - 1) * pageSize + 1)}~{Math.min(currentPage * pageSize, totalCount)}개 표시
+                </div>
+            </div>
+        );
     };
 
     if (loading) return <div className="loading">로딩 중...</div>;
@@ -250,6 +358,9 @@ const MessageList = () => {
                     )}
                 </tbody>
             </table>
+            
+            {/* 페이지네이션 추가 */}
+            {renderPagination()}
             
             {/* 상세보기 모달 */}
             {showDetailModal && (
